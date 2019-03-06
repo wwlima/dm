@@ -47,7 +47,8 @@ public class RequisicaoController {
 	@DeleteMapping(value="/{1}")
 	public ResponseEntity<Void> delete(@PathVariable Integer id) { 
 		Optional<Requisicao> delecao = repo.findById(id);
-		repo.delete(delecao.get());
+		if (delecao.isPresent())
+			repo.delete(delecao.get());
 		return ResponseEntity.noContent().build();
 	}
 	
