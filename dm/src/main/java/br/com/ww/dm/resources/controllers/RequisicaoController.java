@@ -19,6 +19,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.ww.dm.domains.Requisicao;
 import br.com.ww.dm.repositories.RequisicaoRepository;
+import javassist.tools.rmi.ObjectNotFoundException;
 
 /**
  * @author William Lima (wwlima@gmail.com)
@@ -30,6 +31,11 @@ public class RequisicaoController {
 	
 	@Autowired
 	private RequisicaoRepository repo;
+	
+	@GetMapping("/{1}")
+	public Requisicao find(@PathVariable Integer id) throws ObjectNotFoundException {
+		return repo.findById(id).orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado"));
+	}
 	
 	@GetMapping
 	public List<Requisicao> findAll(){
@@ -51,5 +57,4 @@ public class RequisicaoController {
 			repo.delete(delecao.get());
 		return ResponseEntity.noContent().build();
 	}
-	
 }
